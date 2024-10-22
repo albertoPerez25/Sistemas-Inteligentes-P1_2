@@ -1,0 +1,1 @@
+#Clase abstracta que hereda de Busqueda e implementa la frontera mediante una List()

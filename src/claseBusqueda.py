@@ -1,0 +1,1 @@
+#clase abstracta que tendrá busqueda(), expandir(), estadisticas() e imprimirResultado()
