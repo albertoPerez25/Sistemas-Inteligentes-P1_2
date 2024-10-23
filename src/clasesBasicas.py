@@ -24,6 +24,7 @@ class Estado:
         self.longitude = longitude
     def __str__(self):
         return f"Interseccion: (id={self.identifier}, latitud={self.latitude}, longitud={self.longitude})"
+
     def __eq__(self, otro):
         if not isinstance(otro, Estado):
             return False
@@ -39,10 +40,11 @@ class Accion:
     def __init__(self, origin, destination, distance, speed):
         self.origin = origin
         self.destination = destination
-        self.distance = distance
-        self.speed = speed
+        self.time = distance/speed
     def __str__(self):
         return f"Calle: Origen: {self.origin}, Destino: {self.destination}, Distancia: {self.distance}, Velocidad: {self.speed})"
+    def __repr__(self):
+        return f"{self.origin} → {self.destination} ({self.time})"
     def __eq__(self, otro):
         if not isinstance(otro, Accion):
             return False
@@ -95,8 +97,6 @@ class Nodo:
         self.accion = accionTomada
         self.coste = coste
         self.profundidad = profundidad
-        self.calles = self.getSegmentsOf(self.getIntersectionId(self.estado)) #Lista de calles de la interseccion
-        self.it = 0 #Iterador para self.calles
         
     def __str__(self):
         return f"Nodo(estado={self.estado}, padre={self.padre}, accion={self.accion}, coste={self.coste}, profundidad={self.profundidad})"
@@ -109,15 +109,4 @@ class Nodo:
     def __lt__(self,otro):
         return self.estado.__lt__(otro.estado)
     
-    #METODOS:
-    #Devuelve la siguiente calle de la interseccion
-    def getSiguienteAccion(self,segmentos = []):
-        if (len(segmentos) == 0):
-            segmentos = self.calles
-            if(segmentos == None):
-                return None
-        if (self.it >= len(segmentos)):
-            return None
-        segmento = segmentos[self.it]
-        self.it = self.it + 1
-        return segmento
+    
