@@ -5,17 +5,6 @@
 import json
 from math import sqrt
 
-Al_Large1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practicas/P1/Sistemas-Inteligentes-P1_2/problems/large/calle_f_albacete_5000_4.json'
-Al_Huge1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practicas/P1/Sistemas-Inteligentes-P1_2/problems/huge/calle_agustina_aroca_albacete_5000_0.json'
-Al_Test1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practicas/P1/Sistemas-Inteligentes-P1_2/problems/test/test.json'
-Al_Medium1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practicas/P1/Sistemas-Inteligentes-P1_2/problems/medium/calle_maria_marin_500_0.json'
-Al_Small1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practicas/P1/Sistemas-Inteligentes-P1_2/problems/small/calle_del_virrey_morcillo_albacete_250_3.json'
-Ma_Medium1 = '/home/marcos/Documentos/3_Uni/Sistemas_Inteligentes/Programas_python/SInteligentesP1/recursos/problems/medium/calle_maria_marin_500_0.json'
-Ma_Test1 = '/home/marcos/Documentos/3_Uni/Sistemas_Inteligentes/Programas_python/SInteligentesP1/recursos/problems/test/test.json'
-
-RUTAJSON = Al_Small1
-
-
 #Interseccion:
 class Estado:
     def __init__(self, id, latitude, longitude):
@@ -24,6 +13,8 @@ class Estado:
         self.longitude = longitude
     def __str__(self):
         return f"Interseccion: (id={self.identifier}, latitud={self.latitude}, longitud={self.longitude})"
+    def __repr__(self):
+        return f"{self.identifier}"
 
     def __eq__(self, otro):
         if not isinstance(otro, Estado):
@@ -41,6 +32,7 @@ class Accion:
         self.origin = origin
         self.destination = destination
         self.time = distance/speed
+        self.distance = distance
     def __str__(self):
         return f"Calle: Origen: {self.origin}, Destino: {self.destination}, Distancia: {self.distance}, Velocidad: {self.speed})"
     def __repr__(self):
@@ -100,6 +92,8 @@ class Nodo:
         
     def __str__(self):
         return f"Nodo(estado={self.estado}, padre={self.padre}, accion={self.accion}, coste={self.coste}, profundidad={self.profundidad})"
+    def __repr__(self):
+        return f"{self.estado.identifier}"
     
     def __eq__(self,otro):
         if not isinstance(otro, Nodo):
