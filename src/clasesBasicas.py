@@ -31,7 +31,10 @@ class Accion:
     def __init__(self, origin, destination, distance, speed):
         self.origin = origin
         self.destination = destination
-        self.time = distance/speed
+# Dan la velocidad y distancia en distinta unidad a pesar de que no aparecen unidades para ninguna de las dos
+# y de que en el Sistema Internacional estan en metros/segundo y metros, sin embargo aqui usan KM/h y metros sin avisar.
+# En primaria se enseña a poner unidades, pero a la UCLM eso le da igual.
+        self.time = (distance/(speed*(10/36))) 
         self.distance = distance
     def __str__(self):
         return f"Calle: Origen: {self.origin}, Destino: {self.destination}, Distancia: {self.distance}, Velocidad: {self.speed})"
