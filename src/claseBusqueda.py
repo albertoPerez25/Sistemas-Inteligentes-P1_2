@@ -1,5 +1,6 @@
 #clase abstracta que tendrá busqueda(), expandir(), estadisticas() e imprimirResultado()
 from abc import ABC
+import time
 from clasesBasicas import Nodo,Estado,Accion,Problema
 
 
@@ -10,14 +11,14 @@ class Busqueda(ABC):
         self.estadoFinal = problema.Final
         self.tInicio = 0
         self.tFinal = 0
-        self.cerrados = cerrados #para no volver a expandir nodos ya visitados
+        self.cerrados = cerrados        # para no volver a expandir nodos ya visitados
         self.nodo = Nodo(problema.nodoInicio)
         self.frontera = None
         #estadisticas:
         self.nExpandidos = 0
         self.nProfundidad = 0
-        self.nCosteTotal = 0 #nodo.coste es acumulativo
-        self.nExplorados = 0
+        self.nCosteTotal = 0            # nodo.coste es acumulativo
+        self.nGenerados = 0
 
     def expandir(self,nodo,problema):
         sucesores = []
@@ -32,11 +33,23 @@ class Busqueda(ABC):
             sucesores.append(sucesor)
             self.cerrados.add(sucesor.getIntersectionId(sucesor.estado))
             self.añadirNodoAFrontera(sucesor,self.frontera)
-            self.nExplorados = self.nExplorados + 1
+            self.nGenerados = self.nGenerados + 1
         return sucesores
     
     def busqueda(self):
-        pass
+        self.tInicio = time.time()
+        self.frontera = self.añadirNodoAFrontera(self.nodo,self.frontera)
+        self.nGenerados = self.nGenerados + 1
+        self.cerrados.add(self.nodo.getIntersectionId(self.nodo.estado))
+        while(len(self.frontera) != 0):
+            self.nodo,self.extraerNodoDeFrontera(self.frontera)
+            if (self.testObjetivo(self.nodo,self.nodo.estado)):
+                self.tFinal = time.time()
+                return self.listaSolucion(self.nodo)
+            if (not self.nodo.estado.identifier in self.cerrados):
+                self.expandir(self.nodo,self.problema)                                  # Añadimos los sucesores a frontera en expandir. Ahorramos 1 for
+                self.nExpandidos = self.nExpandidos + 1
+        raise Exception("Frontera vacia")
 
     def estadisticas(self):
         pass
