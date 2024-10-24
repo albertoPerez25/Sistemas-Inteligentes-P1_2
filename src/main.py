@@ -1,5 +1,6 @@
 from clasesBasicas import Problema
-from Anchura import Anchura
+from BusquedasNoInformadas import Anchura, Profundidad
+from BusquedasInformadas import PrimeroMejor,AEstrella
 
 
 Al_Large1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practicas/P1/Sistemas-Inteligentes-P1_2/problems/large/calle_del_virrey_morcillo_albacete_2000_4.json'
@@ -13,4 +14,29 @@ Ma_Test1 = '/home/marcos/Documentos/3_Uni/Sistemas_Inteligentes/Programas_python
 RUTAJSON = Al_Small1
 
 anchura = Anchura(Problema(RUTAJSON))
-anchura.busqueda()
+profundidad = Profundidad(Problema(RUTAJSON))
+primeroMejor = PrimeroMejor(Problema(RUTAJSON))
+#estrella = AEstrella(Problema(RUTAJSON))
+
+def hacerAnchura():
+    print("\nAnchura:")
+    anchura.busqueda()
+
+def hacerProfundidad():
+    print("\nProfundidad:")
+    profundidad.busqueda()
+
+def hacerPrimeroMejor():
+    print("\nPrimero Mejor:")
+    primeroMejor.busqueda()
+
+def hacerAEstrella():
+    print("\nA Estrella:")
+    estrella.busqueda()
+
+hacerAnchura()
+hacerProfundidad()
+hacerPrimeroMejor()
+#hacerEstrella()
+
+
