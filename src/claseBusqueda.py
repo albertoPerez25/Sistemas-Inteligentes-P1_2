@@ -27,8 +27,6 @@ class Busqueda(ABC):
             sucesor.accion = accion
             sucesor.coste = nodo.coste + accion.time
             sucesor.profundidad = nodo.profundidad + 1
-            if sucesor.profundidad > self.nProfundidad:
-                self.nProfundidad = sucesor.profundidad
             sucesores.append(sucesor)
             self.nGenerados = self.nGenerados + 1
         return sucesores
@@ -54,6 +52,7 @@ class Busqueda(ABC):
     def listaAcciones(self,nodo):
         sol = []                         # Lista de acciones que han llevado desde el final al inicial
         self.nCosteTotal = nodo.coste    # nodo.coste es acumulativo
+        self.nProfundidad=nodo.profundidad
         while (nodo.padre):
             sol.append(nodo.accion)
             nodo = nodo.padre
