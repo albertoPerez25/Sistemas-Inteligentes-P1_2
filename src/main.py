@@ -11,7 +11,7 @@ Al_Small1 = '/home/calberto/Documents/Uni/5toCuatri/SistemasInteligentes/Practic
 Ma_Medium1 = '/home/marcos/Documentos/3_Uni/Sistemas_Inteligentes/Programas_python/SInteligentesP1/recursos/problems/medium/calle_del_virrey_morcillo_albacete_2000_4.json'
 Ma_Test1 = '/home/marcos/Documentos/3_Uni/Sistemas_Inteligentes/Programas_python/SInteligentesP1/recursos/problems/test/test.json'
 
-RUTAJSON = Al_Small1
+RUTAJSON = Al_Huge1
 
 anchura = Anchura(Problema(RUTAJSON))
 profundidad = Profundidad(Problema(RUTAJSON))

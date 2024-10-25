@@ -27,8 +27,9 @@ class Busqueda(ABC):
             sucesor.accion = accion
             sucesor.coste = nodo.coste + accion.time
             sucesor.profundidad = nodo.profundidad + 1
-            sucesores.append(sucesor)
             self.nGenerados = self.nGenerados + 1
+            sucesor.nGenerado = self.nGenerados
+            sucesores.append(sucesor)
         return sucesores
     
     def busqueda(self):

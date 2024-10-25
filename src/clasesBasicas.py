@@ -85,13 +85,14 @@ class Problema:
         return self.dic_acciones[id]
 
 class Nodo:
-    def __init__(self, interseccion, padre = None, accionTomada = None, coste = 0, profundidad = 0):
+    def __init__(self, interseccion, padre = None, accionTomada = None, coste = 0, profundidad = 0, nGenerado = 0):
         self.estado = interseccion
         self.padre = padre
         self.accion = accionTomada
         self.coste = coste
         self.profundidad = profundidad
-        
+        self.nGenerado = nGenerado  # El 1º generado deberia empezar en 1 no en 0, pues dijo en clase que   
+                                    # se deberia contar pero ellos no lo cuentan en sus soluciones
     def __str__(self):
         return f"Nodo(estado={self.estado}, padre={self.padre}, accion={self.accion}, coste={self.coste}, profundidad={self.profundidad})"
     def __repr__(self):
@@ -99,7 +100,7 @@ class Nodo:
     def __eq__(self,otro):
         if not isinstance(otro, Nodo):
             return False
-        return self.estado.__eq__(otro.estado) and self.accion.__eq__(otro.accion) and self.padre.__eq__(otro.padre)
+        return self.estado.__eq__(otro.estado) and self.nGenerado.__eq__(otro.nGenerado)
     def __lt__(self,otro):
         return self.estado.__lt__(otro.estado)
     

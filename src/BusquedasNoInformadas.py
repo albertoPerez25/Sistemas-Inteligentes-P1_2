@@ -9,7 +9,7 @@ class BusquedaNoInformada(Busqueda,metaclass=ABCMeta):
 
     def añadirNodoAFrontera(self, nodo, frontera):  # Es igual en Anchura y Profundidad
         if isinstance(nodo, list):                  # Añadimos los nodos nuevos a frontera ordenados por ID
-            self.frontera.extend(sorted(nodo))      # Así nos ahorramos ordenar sucesores en busquedas informadas
+            self.frontera.extend(sorted(nodo))      # Así nos ahorramos ordenar sucesores por ID en busquedas informadas
         else:
             frontera.append(nodo)
 
