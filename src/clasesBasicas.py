@@ -15,7 +15,6 @@ class Estado:
         return f"Interseccion: (id={self.identifier}, latitud={self.latitude}, longitud={self.longitude})"
     def __repr__(self):
         return f"{self.identifier}"
-
     def __eq__(self, otro):
         if not isinstance(otro, Estado):
             return False
@@ -35,8 +34,7 @@ class Accion:
 # dan la velocidad y distancia en distinta unidad, a pesar de que no aparecen unidades para ninguna de las dos
 # y de que en el Sistema Internacional estan en metros/segundo y metros, sin embargo aqui usan KM/h y metros sin avisar.
 # En primaria se enseña a poner unidades, pero a la UCLM eso le da igual.
-        self.time = (distance/(speed*(10/36))) 
-        self.distance = distance
+        self.time = (distance/(speed*(10/36))) # Usamos: D->m. T->s y V->m/s
     def __str__(self):
         return f"Calle: Origen: {self.origin}, Destino: {self.destination}, Distancia: {self.distance}, Velocidad: {self.speed})"
     def __repr__(self):
@@ -69,7 +67,7 @@ class Problema:
         # Pasamos los segmentos del JSON a un nuevo diccionario acciones     
         for seg in self.data['segments']:
             if (seg['speed'] > self.maxSpeed):
-                self.maxSpeed = seg['speed']
+                self.maxSpeed = seg['speed']*(10/36)
             self.dic_acciones[seg['origin']].append(Accion(seg['origin'], seg['destination'], seg['distance'], seg['speed']))
             
     # Obtener un objeto Estado a partir de su ID
@@ -102,6 +100,6 @@ class Nodo:
             return False
         return self.estado.__eq__(otro.estado) and self.nGenerado.__eq__(otro.nGenerado)
     def __lt__(self,otro):
-        return self.estado.__lt__(otro.estado)
+        return self.estado.__lt__(otro.estado) #and self.nGenerado.__lt__(otro.nGenerado)
     
     
