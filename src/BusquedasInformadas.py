@@ -30,4 +30,9 @@ class PrimeroMejor(BusquedaInformada):
             heappush(frontera,(self.h2.heuristica(nodo),nodo, nodo.nGenerado))                  # Si la heuristica es igual se elige el generado antes 
                                                                                 # como hacemos en clase.
 class AEstrella(BusquedaInformada):
-    pass
+    def añañadirNodoAFrontera(self, nodo, frontera):
+        if isinstance(nodo, list): 
+            for n in nodo:
+                heappush(frontera,((self.h2.heuristica(n)/self.h2.problema.maxSpeed)+n.coste,n,n.nGenerado))    
+            else:                                                                   
+                heappush(frontera,(self.h2.heuristica(nodo),nodo, nodo.nGenerado)) 
