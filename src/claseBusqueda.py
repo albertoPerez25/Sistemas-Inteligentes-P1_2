@@ -64,14 +64,18 @@ class Busqueda(ABC):
 
     def listaAcciones(self,nodo):
         sol = []                         # Lista de acciones que han llevado desde el final al inicial
+        estados = []
         self.nCosteTotal = nodo.coste    # nodo.coste es acumulativo
         self.nProfundidad=nodo.profundidad
         while (nodo.padre):
             sol.append(nodo.accion)
+            estados.append(nodo.estado.identifier)
             nodo = nodo.padre
+        estados.append(nodo.estado.identifier)
         sol.reverse()                   # Ahora es una lista de acciones desde el inicial al final
         self.imprimirResultado(sol)
-        return sol
+        
+        return estados
 
     def imprimirResultado(self,sol):
         if not sol : print("Solución no encontrada")

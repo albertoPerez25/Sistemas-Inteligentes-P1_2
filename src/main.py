@@ -2,6 +2,9 @@ from clasesBasicas import Problema
 from BusquedasNoInformadas import Anchura, Profundidad
 from BusquedasInformadas import PrimeroMejor,AEstrella
 from clasesHeuristica import Heuristica1,Heuristica2,Heuristica3
+#Para el plot:
+from pathlib import Path
+from plot import plot
 
 Huge2 = 'problems/huge/calle_herreros_albacete_2000_2.json' # No va prof
 Large1 = 'problems/large/calle_agustina_aroca_albacete_1000_2.json' # No va A*
@@ -21,7 +24,7 @@ RUTAJSON = Huge2
 def hacerAnchura():
     print("\nAnchura:")
     anchura = Anchura(Problema(RUTAJSON))
-    anchura.busqueda()
+    return anchura.busqueda()
 
 def hacerProfundidad():
     print("\nProfundidad:")
@@ -36,7 +39,6 @@ def hacerPrimeroMejor(h):
 
 def hacerAEstrella(h):
     print("\nA Estrella:")
-
     estrella = AEstrella(Problema(RUTAJSON),h)       
     estrella.busqueda()
 
@@ -47,6 +49,15 @@ h3 = Heuristica3(Problema(RUTAJSON)) # Manhattan
 hacerAnchura()
 hacerProfundidad()
 hacerPrimeroMejor(h2)
-hacerAEstrella(h2)
+#hacerAEstrella(h2)
+
+def plotear():
+    route = [2537613526, 442882019, 442882997]
+    print(route)
+    #PLOT
+    # Display the map based on the specified path
+    path = './problems/huge/calle_herreros_albacete_2000_2.json'
+    #route = [2537613526, 442882019, 442882997]
+    plot(path,route)
 
 
