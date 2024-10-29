@@ -29,3 +29,10 @@ class Heuristica2(Heuristica):
     # Geodesica. (Línea recta + curvatura de la Tierra)
     def distancia(self, estado, final):
         return geodesic((estado.latitude,estado.longitude), (final.latitude,final.longitude)).meters # La usan en las soluciones. Mas exacta al ser la tierra una elipse
+    # https://pypi.org/project/geopy/
+    # https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://geopy.readthedocs.io/&ved=2ahUKEwiWq97Su7OJAxUt_7sIHanJI7kQFnoECBYQAQ&usg=AOvVaw01VCwbF-UadfgLzmTCV4Mo
+
+class Heuristica3(Heuristica):
+    # Diferencia en latitudes y longitudes. Distancia de Manhattan
+    def distancia(self,estado,final):
+        return abs(estado.latitude - final.latitude) + abs(estado.longitude - final.longitude)

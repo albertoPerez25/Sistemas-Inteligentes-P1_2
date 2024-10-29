@@ -1,9 +1,9 @@
 #GRUPO 9 - 3ºB esiiab
 #ALBERTO PEREZ ALVAREZ
 #MARCOS LOPEZ GOMEZ
-
+from heapq import heappush # Para la PriorityQueue
 import json
-from math import sqrt
+
 
 #Interseccion:
 class Estado:
@@ -30,21 +30,19 @@ class Accion:
     def __init__(self, origin, destination, distance, speed):
         self.origin = origin
         self.destination = destination
-# Perdi 3 horas intentando averiguar por qué no salía el tiempo igual que en las soluciones, pues resulta que
-# dan la velocidad y distancia en distinta unidad, a pesar de que no aparecen unidades para ninguna de las dos
-# y de que en el Sistema Internacional estan en metros/segundo y metros, sin embargo aqui usan KM/h y metros sin avisar.
-# En primaria se enseña a poner unidades, pero a la UCLM eso le da igual.
+    # Dan la velocidad en Km/h y distancia en m
         self.time = (distance/(speed*(10/36))) # Usamos: D->m. T->s y V->m/s
     def __str__(self):
-        return f"Calle: Origen: {self.origin}, Destino: {self.destination}, Distancia: {self.distance}, Velocidad: {self.speed})"
+        return f"Calle: Origen: {self.origin}, Destino: {self.destination})"
     def __repr__(self):
         return f"{self.origin} → {self.destination} ({self.time})"
     def __eq__(self, otro):
         if not isinstance(otro, Accion):
             return False
         else:
-            return self.origin == otro.origin and self.destination == otro.destination and self.distance == otro.distance and self.speed == otro.speed
-
+            return self.origin == otro.origin and self.destination == otro.destination and self.time == otro.time
+    def __lt__(self, otro):
+        return self.destination < otro.destination
 class Problema:   
     #Constructor de Problema
     def __init__(self,ruta):
@@ -54,21 +52,24 @@ class Problema:
         self.dic_estados = {}
         self.dic_acciones = {}
         self.maxSpeed = 0
+        acciones = []
 
         # Pasamos las intersecciones del JSON a un nuevo diccionario estados
         for inter in self.data['intersections']:
-            self.dic_estados.update({inter['identifier']:Estado(inter['identifier'], inter['latitude'], inter['longitude'])})
-            self.dic_acciones.update({inter['identifier']:[]})
-
-        # Cargamos los nodos iniciales y finales del JSON
+            self.dic_estados.update({inter['identifier']:(Estado(inter['identifier'], inter['latitude'], inter['longitude']))})         
+            self.dic_acciones.update({inter['identifier']:[]})  # Acciones = {id:PriorityQueue de Acciones}
+            
+        # Cargamos los nodos iniciales y finales del JSON. ACCIONES ES PRIORITY QUEUE CON TUPLA ID DESTINO,ACCION
         self.Inicial = self.dic_estados[self.data["initial"]]
         self.Final = self.dic_estados[self.data["final"]]
         
         # Pasamos los segmentos del JSON a un nuevo diccionario acciones     
         for seg in self.data['segments']:
-            if (seg['speed'] > self.maxSpeed):
-                self.maxSpeed = seg['speed']*(10/36)
-            self.dic_acciones[seg['origin']].append(Accion(seg['origin'], seg['destination'], seg['distance'], seg['speed']))
+            if (seg['speed']*(10/36) > self.maxSpeed):
+                self.maxSpeed = seg['speed']*(10/36) # km/h -> m/s
+            accion=Accion(seg['origin'], seg['destination'], seg['distance'], seg['speed'])
+            heappush(self.dic_acciones[seg['origin']], accion)  # Metemos las acciones de cada Estado en una PriorityQueue
+
             
     # Obtener un objeto Estado a partir de su ID
     def getEstado(self, id):
@@ -90,7 +91,8 @@ class Nodo:
         self.coste = coste
         self.profundidad = profundidad
         self.nGenerado = nGenerado  # El 1º generado deberia empezar en 1 no en 0, pues dijo en clase que   
-                                    # se deberia contar pero ellos no lo cuentan en sus soluciones
+                                    # se deberia contar pero ellos no lo cuentan en sus soluciones, asi que 
+                                    # nosotros tampoco
     def __str__(self):
         return f"Nodo(estado={self.estado}, padre={self.padre}, accion={self.accion}, coste={self.coste}, profundidad={self.profundidad})"
     def __repr__(self):
@@ -101,5 +103,4 @@ class Nodo:
         return self.estado.__eq__(otro.estado) and self.nGenerado.__eq__(otro.nGenerado)
     def __lt__(self,otro):
         return self.estado.__lt__(otro.estado) #and self.nGenerado.__lt__(otro.nGenerado)
-    
     

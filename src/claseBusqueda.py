@@ -1,19 +1,25 @@
 #clase abstracta que tendrá busqueda(), expandir(), estadisticas() e imprimirResultado()
-from clasesBasicas import Nodo,Problema
-from abc import ABC, ABCMeta,abstractmethod
-import time,heapq
+from clasesBasicas import Nodo
+from abc import ABC,abstractmethod
+import time
+from heapq import heappop
 
 class Busqueda(ABC):
     def __init__(self, problema):
+        self.frontera = []  # Declaración igual en todos los algoritmos
+                            # heapq usa una lista como priority vacia.
+                            # heapq es minimamente mas rapido que PriorityQueue al 
+                            # no prevenir errores de hilos. Como no usamos concurrencia 
+                            # de hilos en esta práctica, heapq es ideal
+                            # https://docs.python.org/3/library/queue.html#queue.PriorityQueue
         self.problema = problema
         self.estadoInicial = problema.Inicial
         self.estadoFinal = problema.Final
         self.tInicio = 0
         self.tFinal = 0
-        self.cerrados = set()        # para no volver a expandir nodos ya visitados
+        self.cerrados = set()        # Para no volver a expandir nodos ya visitados
         self.nodo = Nodo(problema.Inicial)
-        self.frontera = None
-        #estadisticas:
+        # Estadisticas:
         self.nExpandidos = 0
         self.nProfundidad = 0
         self.nCosteTotal = 0           
@@ -21,7 +27,9 @@ class Busqueda(ABC):
 
     def expandir(self,nodo,problema):
         sucesores = []
-        for accion in problema.getAccionesDe(nodo.estado.identifier):
+        acciones = problema.getAccionesDe(nodo.estado.identifier)
+        while acciones:
+            accion = heappop(acciones)
             sucesor = Nodo(problema.getEstado(accion.destination))
             sucesor.padre = nodo
             sucesor.accion = accion
@@ -29,23 +37,27 @@ class Busqueda(ABC):
             sucesor.profundidad = nodo.profundidad + 1
             self.nGenerados = self.nGenerados + 1
             sucesor.nGenerado = self.nGenerados
-            sucesores.append(sucesor)
-        return sucesores
-    
+            self.añadirNodoAFrontera(sucesor, self.frontera)    # Añadimos los sucesores a frontera.
+                                                                # Nos ahorramos un bucle For al añadirlos 
+                                                                # desde expandir
+                                                            
     def busqueda(self):
         self.tInicio = time.time()
         self.añadirNodoAFrontera(self.nodo,self.frontera)
-        while(self.esVacia(self.frontera)):
+        while(not self.esVacia(self.frontera)):
             self.nodo = self.extraerNodoDeFrontera(self.frontera)
             if (self.testObjetivo(self.nodo)):
                 self.tFinal = time.time()
                 return self.listaAcciones(self.nodo)
             if (not self.nodo.estado.identifier in self.cerrados):
-                sucesores = self.expandir(self.nodo, self.problema)     # Obtenemos los sucesores con Expandir()
-                self.añadirNodoAFrontera(sucesores, self.frontera)      # Añadimos los sucesores a frontera.
+                self.expandir(self.nodo, self.problema)     # Obtenemos los sucesores con Expandir()
                 self.nExpandidos = self.nExpandidos + 1
                 self.cerrados.add(self.nodo.estado.identifier)
-        raise Exception("Frontera vacia")
+        self.tFinal = time.time()
+        return self.imprimirResultado([])
+
+    def esVacia(self, frontera): # Igual en todos los algoritmos
+        return len(frontera) == 0
 
     def testObjetivo(self,nodo):
         return nodo.estado.__eq__(self.problema.Final)
@@ -62,6 +74,7 @@ class Busqueda(ABC):
         return sol
 
     def imprimirResultado(self,sol):
+        if not sol : print("Solución no encontrada")
         print("Nodos generados:",self.nGenerados)
         print("Nodos expandidos:",self.nExpandidos)
         print("Tiempo de ejecución:",(self.formatearTiempo(self.tFinal - self.tInicio)),"segundos")
@@ -81,8 +94,5 @@ class Busqueda(ABC):
         pass
     @abstractmethod
     def extraerNodoDeFrontera(self, frontera):
-        pass
-    @abstractmethod
-    def esVacia(self, frontera):
         pass
 
