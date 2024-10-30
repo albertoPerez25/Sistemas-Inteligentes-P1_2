@@ -6,7 +6,7 @@ from clasesHeuristica import Heuristica1,Heuristica2,Heuristica3
 from pathlib import Path
 from plot import plot
 
-Huge2 = 'problems/huge/calle_herreros_albacete_2000_2.json' # No va prof
+Huge2 = 'problems/huge/calle_herreros_albacete_2000_2.json' # No iba prof
 Large1 = 'problems/large/calle_agustina_aroca_albacete_1000_2.json' # No va A*
 Large2 = 'problems/large/calle_f_albacete_5000_4.json'
 Large3 = 'problems/large/calle_cardenal_tabera_y_araoz_albacete_1000_3.json'
@@ -17,7 +17,7 @@ Test2 = 'problems/test/test2.json'
 Medium1 = 'problems/medium/calle_del_virrey_morcillo_albacete_2000_4.json'
 Small1 = 'problems/small/calle_del_virrey_morcillo_albacete_250_3.json'
 Small2 = 'problems/small/calle_franciscanos_albacete_250_0.json' # Sin solucion
-Small3 = 'problems/small/calle_palmas_de_gran_canaria_albacete_250_4.json' # No va prof
+Small3 = 'problems/small/calle_palmas_de_gran_canaria_albacete_250_4.json' # No iba prof
 
 RUTAJSON = Huge2
 
@@ -30,7 +30,6 @@ def hacerProfundidad():
     print("\nProfundidad:")
     profundidad = Profundidad(Problema(RUTAJSON))
     profundidad.busqueda()
-
 
 def hacerPrimeroMejor(h):
     print("\nPrimero Mejor:")
@@ -49,7 +48,7 @@ h3 = Heuristica3(Problema(RUTAJSON)) # Manhattan
 hacerAnchura()
 hacerProfundidad()
 hacerPrimeroMejor(h2)
-#hacerAEstrella(h2)
+hacerAEstrella(h2)
 
 def plotear():
     route = [2537613526, 442882019, 442882997]

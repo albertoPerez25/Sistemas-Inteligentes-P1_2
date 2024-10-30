@@ -8,13 +8,12 @@ class Busqueda(ABC):
     def __init__(self, problema):
         self.frontera = []  # Declaración igual en todos los algoritmos
                             # heapq usa una lista como priority vacia.
-                            # heapq es minimamente mas rapido que PriorityQueue al 
+                            # heapq es algo mas rapido que PriorityQueue al 
                             # no prevenir errores de hilos. Como no usamos concurrencia 
                             # de hilos en esta práctica, heapq es ideal
+                            # https://docs.python.org/3/library/heapq.html
                             # https://docs.python.org/3/library/queue.html#queue.PriorityQueue
         self.problema = problema
-        self.estadoInicial = problema.Inicial
-        self.estadoFinal = problema.Final
         self.tInicio = 0
         self.tFinal = 0
         self.cerrados = set()        # Para no volver a expandir nodos ya visitados
@@ -26,7 +25,6 @@ class Busqueda(ABC):
         self.nGenerados = 0
 
     def expandir(self,nodo,problema):
-        sucesores = []
         acciones = problema.getAccionesDe(nodo.estado.identifier)
         while acciones:
             accion = heappop(acciones)
@@ -56,25 +54,21 @@ class Busqueda(ABC):
         self.tFinal = time.time()
         return self.imprimirResultado([])
 
-    def esVacia(self, frontera): # Igual en todos los algoritmos
-        return len(frontera) == 0
-
     def testObjetivo(self,nodo):
         return nodo.estado.__eq__(self.problema.Final)
 
     def listaAcciones(self,nodo):
         sol = []                         # Lista de acciones que han llevado desde el final al inicial
-        estados = []
+        estados = []                     # Lista de ids de los estados desde el final al inicial
         self.nCosteTotal = nodo.coste    # nodo.coste es acumulativo
         self.nProfundidad=nodo.profundidad
         while (nodo.padre):
             sol.append(nodo.accion)
             estados.append(nodo.estado.identifier)
             nodo = nodo.padre
-        estados.append(nodo.estado.identifier)
+        estados.append(nodo.estado.identifier) # Añadimos el inicial
         sol.reverse()                   # Ahora es una lista de acciones desde el inicial al final
         self.imprimirResultado(sol)
-        
         return estados
 
     def imprimirResultado(self,sol):
@@ -86,12 +80,15 @@ class Busqueda(ABC):
         print("Coste de la solución:",self.formatearTiempo(self.nCosteTotal))
         print("Solución:",sol)
     
-    def formatearTiempo(self, tiempo):
+    def formatearTiempo(self, tiempo):  # Para imprimir los tiempos como en las soluciones
         horas = int(tiempo // 3600)
         minutos = int((tiempo % 3600) // 60)
         segundos = int(tiempo % 60)
         milisegundos = int((tiempo - int(tiempo)) * 1000000)
         return f"{horas:01d}:{minutos:02d}:{segundos:02d}.{milisegundos:06d}"
+
+    def esVacia(self, frontera): # Igual en todos los algoritmos
+        return len(frontera) == 0
 
     @abstractmethod
     def añadirNodoAFrontera(self, nodo, frontera):
@@ -99,4 +96,3 @@ class Busqueda(ABC):
     @abstractmethod
     def extraerNodoDeFrontera(self, frontera):
         pass
-

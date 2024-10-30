@@ -30,7 +30,7 @@ class Accion:
     def __init__(self, origin, destination, distance, speed):
         self.origin = origin
         self.destination = destination
-    # Dan la velocidad en Km/h y distancia en m
+    # Dan la velocidad en Km/h y la distancia en m
         self.time = (distance/(speed*(10/36))) # Usamos: D->m. T->s y V->m/s
     def __str__(self):
         return f"Calle: Origen: {self.origin}, Destino: {self.destination})"
@@ -43,6 +43,7 @@ class Accion:
             return self.origin == otro.origin and self.destination == otro.destination and self.time == otro.time
     def __lt__(self, otro):
         return self.destination < otro.destination
+    
 class Problema:   
     #Constructor de Problema
     def __init__(self,ruta):
@@ -52,14 +53,13 @@ class Problema:
         self.dic_estados = {}
         self.dic_acciones = {}
         self.maxSpeed = 0
-        acciones = []
 
         # Pasamos las intersecciones del JSON a un nuevo diccionario estados
         for inter in self.data['intersections']:
             self.dic_estados.update({inter['identifier']:(Estado(inter['identifier'], inter['latitude'], inter['longitude']))})         
             self.dic_acciones.update({inter['identifier']:[]})  # Acciones = {id:PriorityQueue de Acciones}
             
-        # Cargamos los nodos iniciales y finales del JSON. ACCIONES ES PRIORITY QUEUE CON TUPLA ID DESTINO,ACCION
+        # Cargamos los nodos iniciales y finales del JSON.
         self.Inicial = self.dic_estados[self.data["initial"]]
         self.Final = self.dic_estados[self.data["final"]]
         
@@ -70,7 +70,6 @@ class Problema:
             accion=Accion(seg['origin'], seg['destination'], seg['distance'], seg['speed'])
             heappush(self.dic_acciones[seg['origin']], accion)  # Metemos las acciones de cada Estado en una PriorityQueue
 
-            
     # Obtener un objeto Estado a partir de su ID
     def getEstado(self, id):
         return self.dic_estados[id]
@@ -102,5 +101,4 @@ class Nodo:
             return False
         return self.estado.__eq__(otro.estado) and self.nGenerado.__eq__(otro.nGenerado)
     def __lt__(self,otro):
-        return self.estado.__lt__(otro.estado) #and self.nGenerado.__lt__(otro.nGenerado)
-    
+        return self.estado.__lt__(otro.estado)
