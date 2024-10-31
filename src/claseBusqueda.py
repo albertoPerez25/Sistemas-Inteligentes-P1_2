@@ -2,17 +2,10 @@
 from clasesBasicas import Nodo
 from abc import ABC,abstractmethod
 import time
-from heapq import heappop
 
 class Busqueda(ABC):
     def __init__(self, problema):
-        self.frontera = []  # Declaración igual en todos los algoritmos
-                            # heapq usa una lista como priority vacia.
-                            # heapq es algo mas rapido que PriorityQueue al 
-                            # no prevenir errores de hilos. Como no usamos concurrencia 
-                            # de hilos en esta práctica, heapq es ideal
-                            # https://docs.python.org/3/library/heapq.html
-                            # https://docs.python.org/3/library/queue.html#queue.PriorityQueue
+        self.frontera = None # Se inicializará al tipo que le corresponda a cada algoritmo
         self.problema = problema
         self.tInicio = 0
         self.tFinal = 0
@@ -26,8 +19,8 @@ class Busqueda(ABC):
 
     def expandir(self,nodo,problema):
         acciones = problema.getAccionesDe(nodo.estado.identifier)
-        while acciones:
-            accion = heappop(acciones)
+        while not acciones.empty():            
+            accion = acciones.get()
             sucesor = Nodo(problema.getEstado(accion.destination))
             sucesor.padre = nodo
             sucesor.accion = accion
@@ -42,7 +35,7 @@ class Busqueda(ABC):
     def busqueda(self):
         self.tInicio = time.time()
         self.añadirNodoAFrontera(self.nodo,self.frontera)
-        while(not len(self.frontera) == 0): # Que esté vacía se comprueba igual en todos nuestros algoritmos, asi que mejor esto que un método de 1 línea
+        while(not self.esVacia(self.frontera)): 
             self.nodo = self.extraerNodoDeFrontera(self.frontera)
             if (self.testObjetivo(self.nodo)):
                 self.tFinal = time.time()
@@ -93,4 +86,7 @@ class Busqueda(ABC):
         pass
     @abstractmethod
     def extraerNodoDeFrontera(self, frontera):
+        pass
+    @abstractmethod
+    def esVacia(self, frontera):
         pass

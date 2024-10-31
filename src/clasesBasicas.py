@@ -1,8 +1,8 @@
 #GRUPO 9 - 3ºB esiiab
 #ALBERTO PEREZ ALVAREZ
 #MARCOS LOPEZ GOMEZ
-from heapq import heappush # Para la PriorityQueue
 import json
+from queue import PriorityQueue
 
 
 #Interseccion:
@@ -57,7 +57,7 @@ class Problema:
         # Pasamos las intersecciones del JSON a un nuevo diccionario estados
         for inter in self.data['intersections']:
             self.dic_estados.update({inter['identifier']:(Estado(inter['identifier'], inter['latitude'], inter['longitude']))})         
-            self.dic_acciones.update({inter['identifier']:[]})  # Acciones = {id:PriorityQueue de Acciones}
+            self.dic_acciones.update({inter['identifier']:PriorityQueue()})  # Acciones = {id:PriorityQueue de Acciones}
             
         # Cargamos los nodos iniciales y finales del JSON.
         self.Inicial = self.dic_estados[self.data["initial"]]
@@ -68,7 +68,7 @@ class Problema:
             if (seg['speed']*(10/36) > self.maxSpeed):
                 self.maxSpeed = seg['speed']*(10/36) # km/h -> m/s
             accion=Accion(seg['origin'], seg['destination'], seg['distance'], seg['speed'])
-            heappush(self.dic_acciones[seg['origin']], accion)  # Metemos las acciones de cada Estado en una PriorityQueue
+            self.dic_acciones[seg['origin']].put(accion)  # Metemos las acciones de cada Estado en una PriorityQueue
 
     # Obtener un objeto Estado a partir de su ID
     def getEstado(self, id):
