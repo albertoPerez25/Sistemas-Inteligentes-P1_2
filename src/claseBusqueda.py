@@ -62,7 +62,7 @@ class Busqueda(ABC):
         estados.append(nodo.estado.identifier) # Añadimos el inicial
         sol.reverse()                   # Ahora es una lista de acciones desde el inicial al final.
         self.imprimirResultado(sol)     # Le damos la vuelta para que salga como en la solución proporcionada.
-
+        estados.reverse()               # Le damos la vuelta a las intersecciones tambien
         return estados
 
     def imprimirResultado(self,sol):
