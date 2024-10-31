@@ -20,7 +20,7 @@ Small2 = 'problems/small/calle_franciscanos_albacete_250_0.json' # Sin solucion
 Small3 = 'problems/small/calle_palmas_de_gran_canaria_albacete_250_4.json' # No iba prof
 Medium2 = 'problems/medium/camino_de_alto_los_chorlitos_albacete_2000_4.json'
 
-RUTAJSON = Medium2
+RUTAJSON = Small1
 
 def hacerAnchura():
     print("\nAnchura:")
