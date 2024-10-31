@@ -164,3 +164,13 @@ myenv/
 .myenv
 ./myenv/*
 myenv/*
+<<<<<<< HEAD
+=======
+cache/
+.cache
+cache/*
+Libreta/cache/
+Libreta/cache/*
+Libreta/.cache
+
+>>>>>>> 4c7f9ad242986d6e7b2628a2b0b0b366e16f8e71

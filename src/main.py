@@ -3,8 +3,13 @@ from BusquedasNoInformadas import Anchura, Profundidad
 from BusquedasInformadas import PrimeroMejor,AEstrella
 from clasesHeuristica import Heuristica1,Heuristica2,Heuristica3
 #Para el plot:
+<<<<<<< HEAD
 from pathlib import Path
 from plot import plot
+=======
+#from pathlib import Path
+#from Libreta.plot import plot
+>>>>>>> 4c7f9ad242986d6e7b2628a2b0b0b366e16f8e71
 
 Huge2 = 'problems/huge/calle_herreros_albacete_2000_2.json' # No iba prof
 Large1 = 'problems/large/calle_agustina_aroca_albacete_1000_2.json' # No va A*
@@ -18,8 +23,14 @@ Medium1 = 'problems/medium/calle_del_virrey_morcillo_albacete_2000_4.json'
 Small1 = 'problems/small/calle_del_virrey_morcillo_albacete_250_3.json'
 Small2 = 'problems/small/calle_franciscanos_albacete_250_0.json' # Sin solucion
 Small3 = 'problems/small/calle_palmas_de_gran_canaria_albacete_250_4.json' # No iba prof
+<<<<<<< HEAD
 
 RUTAJSON = Huge2
+=======
+Medium2 = 'problems/medium/camino_de_alto_los_chorlitos_albacete_2000_4.json'
+
+RUTAJSON = Medium2
+>>>>>>> 4c7f9ad242986d6e7b2628a2b0b0b366e16f8e71
 
 def hacerAnchura():
     print("\nAnchura:")
