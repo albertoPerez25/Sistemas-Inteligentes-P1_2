@@ -4,7 +4,7 @@ from BusquedasInformadas import PrimeroMejor,AEstrella
 from clasesHeuristica import Heuristica1,Heuristica2,Heuristica3
 #Para el plot:
 from pathlib import Path
-from plot import plot
+from Libreta.plot import plot
 
 Huge2 = 'problems/huge/calle_herreros_albacete_2000_2.json' # No iba prof
 Large1 = 'problems/large/calle_agustina_aroca_albacete_1000_2.json' # No va A*
