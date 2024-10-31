@@ -42,7 +42,7 @@ class Busqueda(ABC):
     def busqueda(self):
         self.tInicio = time.time()
         self.añadirNodoAFrontera(self.nodo,self.frontera)
-        while(not self.esVacia(self.frontera)):
+        while(not len(self.frontera) == 0): # Que esté vacía se comprueba igual en todos nuestros algoritmos, asi que mejor esto que un método de 1 línea
             self.nodo = self.extraerNodoDeFrontera(self.frontera)
             if (self.testObjetivo(self.nodo)):
                 self.tFinal = time.time()
@@ -67,8 +67,8 @@ class Busqueda(ABC):
             estados.append(nodo.estado.identifier)
             nodo = nodo.padre
         estados.append(nodo.estado.identifier) # Añadimos el inicial
-        sol.reverse()                   # Ahora es una lista de acciones desde el inicial al final
-        self.imprimirResultado(sol)
+        sol.reverse()                   # Ahora es una lista de acciones desde el inicial al final.
+        self.imprimirResultado(sol)     # Le damos la vuelta para que salga como en la solución proporcionada.
         return estados
 
     def imprimirResultado(self,sol):
@@ -86,9 +86,6 @@ class Busqueda(ABC):
         segundos = int(tiempo % 60)
         milisegundos = int((tiempo - int(tiempo)) * 1000000)
         return f"{horas:01d}:{minutos:02d}:{segundos:02d}.{milisegundos:06d}"
-
-    def esVacia(self, frontera): # Igual en todos los algoritmos
-        return len(frontera) == 0
 
     @abstractmethod
     def añadirNodoAFrontera(self, nodo, frontera):

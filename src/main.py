@@ -18,8 +18,9 @@ Medium1 = 'problems/medium/calle_del_virrey_morcillo_albacete_2000_4.json'
 Small1 = 'problems/small/calle_del_virrey_morcillo_albacete_250_3.json'
 Small2 = 'problems/small/calle_franciscanos_albacete_250_0.json' # Sin solucion
 Small3 = 'problems/small/calle_palmas_de_gran_canaria_albacete_250_4.json' # No iba prof
+Medium2 = 'problems/medium/camino_de_alto_los_chorlitos_albacete_2000_4.json'
 
-RUTAJSON = Huge2
+RUTAJSON = Medium2
 
 def hacerAnchura():
     print("\nAnchura:")
