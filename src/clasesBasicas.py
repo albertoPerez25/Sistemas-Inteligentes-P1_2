@@ -22,8 +22,6 @@ class Estado:
             return self.identifier == otro.identifier
     def __lt__(self, otro):
         return self.identifier < otro.identifier
-    def esId(self, id):
-        return self.identifier == id
 
 #Segmento:    
 class Accion:
@@ -73,10 +71,6 @@ class Problema:
     # Obtener un objeto Estado a partir de su ID
     def getEstado(self, id):
         return self.dic_estados[id]
-
-    # Obtener el destino de una Accion
-    def getDestinoDe(self,accion):
-        return self.dic_estados[accion.destination]
 
     # Obtener todas las acciones de un estado a partir de su ID
     def getAccionesDe(self,id):

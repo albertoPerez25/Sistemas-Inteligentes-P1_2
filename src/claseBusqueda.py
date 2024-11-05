@@ -37,7 +37,7 @@ class Busqueda(ABC):
         self.añadirNodoAFrontera(self.nodo,self.frontera)
         while(not self.esVacia(self.frontera)): 
             self.nodo = self.extraerNodoDeFrontera(self.frontera)
-            if (self.testObjetivo(self.nodo)):
+            if (self.nodo.estado.__eq__(self.problema.Final)):
                 self.tFinal = time.time()
                 return self.listaAcciones(self.nodo)
             if (not self.nodo.estado.identifier in self.cerrados):
@@ -46,9 +46,6 @@ class Busqueda(ABC):
                 self.cerrados.add(self.nodo.estado.identifier)
         self.tFinal = time.time()
         return self.imprimirResultado([])
-
-    def testObjetivo(self,nodo):
-        return nodo.estado.__eq__(self.problema.Final)
 
     def listaAcciones(self,nodo):
         sol = []                         # Lista de acciones que han llevado desde el final al inicial
@@ -59,7 +56,7 @@ class Busqueda(ABC):
             sol.append(nodo.accion)
             estados.append(nodo.estado.identifier)
             nodo = nodo.padre
-        estados.append(nodo.estado.identifier) # Añadimos el inicial
+        #estados.append(nodo.estado.identifier) # Añadimos el inicial
         sol.reverse()                   # Ahora es una lista de acciones desde el inicial al final.
         self.imprimirResultado(sol)     # Le damos la vuelta para que salga como en la solución proporcionada.
         estados.reverse()               # Le damos la vuelta a las intersecciones tambien
